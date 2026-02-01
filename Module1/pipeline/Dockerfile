@@ -13,8 +13,8 @@ COPY pyproject.toml .python-version uv.lock ./
 RUN uv sync --locked
 
 #Copy aplication code --RUN pip install pandas pyarrow
-COPY pipeline.py .
+COPY ingest_data.py .
 
 #Set entry point
 #ENTRYPOINT [ "uv", "run","python", "pipeline.py" ]
-ENTRYPOINT [ "python", "pipeline.py" ]
+ENTRYPOINT [ "python", "ingest_data.py" ]

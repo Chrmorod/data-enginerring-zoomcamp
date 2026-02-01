@@ -14,6 +14,34 @@
     - docker run -it --entrypoint=bash --rm test:pandas
     - docker run -it test:pandas  12 (with entrypoint)
     - docker run -it --rm test:pandas 12 (with pyproject.toml and uv.lock files)
+    - docker build -t taxi_ingest:v001 .
+    - docker network connect pg-network elegant_tesla (previous docker -ps)
+    - docker run -it --rm \
+      --network=pg-network \
+      taxi_ingest:v001 \
+           --year=2021 \
+           --month=1 \
+           --pg_user=root \
+           --pg_pass=root \
+           --pg_host=elegant_tesla \
+           --pg_port=5432 \
+           --pg_db=ny_taxi \
+           --target_table=yellow_taxi_trips \
+           --chunksize=100000
+
+    - docker run -it \
+      -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+      -e PGADMIN_DEFAULT_PASSWORD="root" \
+      -v pgadmin_data: /var/lib/pgadmin \
+      -p 8085:80 \
+      --network=pg-network \
+      --name pgadmin \
+      dpage/pgadmin4
+      
+      docker-compose down -v
+      docker-compose up -d pgdatabase pgadmin
+      docker-compose run --rm taxi_ingest
+
  test:
     - mkdir test
     - touch file1.txt file2.txt file3.txt
@@ -35,7 +63,17 @@
     - uv run jupyter notebook
     - uv run jupyter notebook --allow-root (not recommended)
     - uv run jupyter nbconvert --to=script notebook.ipynb
-    - uv run python ingest_data.py
+    - uv run python ingest_data.py --help
+    - uv run python ingest_data.py --year 2022 --month 6 --pg_user root --chunksize 50000
+    - uv run python ingest_data.py --year=2021 \
+                                    --month=1 \
+                                    --pg_user=root \
+                                    --pg_pass=root \
+                                    --pg_host=localhost \
+                                    --pg_port=5432 \
+                                    --pg_db=ny_taxi \
+                                    --target_table=yellow_taxi_trips \
+                                    --chunksize=100000
 
  postgres:
     - \dt
