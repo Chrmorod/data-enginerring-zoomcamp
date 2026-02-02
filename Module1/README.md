@@ -94,3 +94,11 @@ INSERT INTO test VALUES (1, 'Hello Docker');
 SELECT * FROM test;
 \q
 ```
+## Terraform comands
+```bash
+terraform fmt
+terraform init
+terraform plan
+terraform apply
+terraform destroy
+```
