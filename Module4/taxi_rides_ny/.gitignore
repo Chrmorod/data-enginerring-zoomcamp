@@ -1,0 +1,27 @@
+
+target/
+dbt_packages/
+logs/
+
+# Data directory
+data/
+
+# ==============================
+# DuckDB files
+# ==============================
+*.duckdb
+*.duckdb-wal
+*.duckdb.tmp
+
+# ==============================
+# dbt logs
+# ==============================
+logs/
+dbt.log
+target/
+dbt_packages/
+
+# ==============================
+# Gitkeep files
+# ==============================
+*.gitkeep
