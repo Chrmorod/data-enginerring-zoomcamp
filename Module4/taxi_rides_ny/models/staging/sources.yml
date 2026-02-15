@@ -7,4 +7,26 @@ sources:
     schema: prod
     tables: 
       - name: yellow_tripdata
+        description: "Raw data for yellow taxi trips in New York City"
+        data_type: integer
+        meta:
+          pii: false
+          ownership: "data_team"
+          importance: high
+          formatting: none
       - name: green_tripdata
+        columns: 
+          - name: vendor_id
+            description: |
+             "A code indicating the provider associated with the trip record. This code is used to identify the company or service that facilitated the taxi trip.
+                   1: 'Creative Mobile Technologies, LLC'
+                   2: 'VeriFone Inc.'
+                   3: 'Uknown/Other'
+              "
+        data_type: integer
+        meta:
+            pii: false
+            ownership: "data_team"
+            importance: medium
+            formatting: none
+        description: "Raw data for green taxi trips in New York City"

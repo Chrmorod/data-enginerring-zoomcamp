@@ -10,7 +10,35 @@ dbt debug
 code ~/.dbt/profiles.yml
 python3 ingest.py
 duckdb -ui taxi_rides_ny.duckdb
-dbt debug
+dbt seed
+dbt docs generate #(catalog json)
+dbt docs serve --host 0.0.0.0 --port 8099
+
+dbt snapshot
+dbt source freshness
+dbt docs serve #no use in cloud, (automatic)
+dbt clean
+dbt deps
+dbt run 
+dbt test
+dbt compile
+
+
+dbt  build (dbt run + dbt test + dbt seed + dbt snapshot)
+
+dbt retry (whatever fail)
+
+dbt --help
+dbt --version
+dbt run --full-refresh (drop data and load data)
+dbt run --fail-fast
+dbt run -target
+dbt test -t prod
+dbt run --select stg_green_tripdata
+dbt run --select +int_trips_unioned
+dbt run --select int_trips_unioned+
+dbt run --select +int_trips_unioned+ (upstream & downstream)
+dbt run --select state:modified --state ./target (only run files updated)
 ```
 ## analyses
 - A place for SQL files that you don't want to expose
@@ -58,3 +86,50 @@ dbt debug
 - Tables ready for dashboards
 - Properly modeled, clean tables
 
+## example code utils (dbt_packages)
+```bash
+    with unioned as(
+        select * from {{ ref('int_trips_unioned') }}
+    ),
+    payment_type_lookup as (
+        select * from {{ ref('payment_type_lookup') }}
+    ),
+    cleaned_and_enriched_trips AS (
+        SELECT
+        -- Generate a unique trip identifier (surrogate key pattern)
+            {{ dbt_utils.generate_surrogate_key([
+                'vendor_id',
+                'pickup_datetime',
+                'pickup_location_id',
+                'service_type'
+            ]) }} as trip_id,
+            -- Identifiers
+            u.vendor_id,
+            u.service_type,
+            u.rate_code_id,
+            -- Location IDs
+            u.pickup_location_id,
+            u.dropoff_location_id,
+            --Timestamps
+            u.pickup_datetime,
+            u.dropoff_datetime,
+            -- Trip details
+            u.store_and_fwd_flag,
+            u.passenger_count,
+            u.trip_distance,
+            u.fare_amount,
+            -- Payment breakdown
+            u.fare_amount,
+            u.extra,
+            u.mta_tax,
+            u.tip_amount,
+            u.tolls_amount,
+            u.improvement_surcharge,
+            u.total_amount,
+            from payment_type_lookup p
+        JOIN unioned u
+            ON u.payment_type = p.payment_type  
+
+    )
+    select * from cleaned_and_enriched_trips
+```
