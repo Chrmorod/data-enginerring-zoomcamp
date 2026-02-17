@@ -1,0 +1,9 @@
+select
+    zone,
+    sum(total_revenue) as revenue
+from {{ ref('fct_monthly_zone_revenue') }}
+where service_type = 'green'
+  and date_part('year', revenue_month) = 2020
+group by zone
+order by revenue desc
+limit 1

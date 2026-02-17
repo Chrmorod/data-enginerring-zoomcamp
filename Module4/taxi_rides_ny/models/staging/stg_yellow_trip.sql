@@ -1,5 +1,6 @@
 select 
     --identifiers
+       'yellow' as service_type,
        cast(vendorid as int) as vendor_id, 
        cast(ratecodeid as int) as rate_code_id,
        cast(pulocationid as int) as pickup_location_id, 

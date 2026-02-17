@@ -5,7 +5,9 @@ sources:
     description: "Raw data for taxi rides in New York City"
     database: taxi_rides_ny
     schema: prod
+
     tables: 
+
       - name: yellow_tripdata
         description: "Raw data for yellow taxi trips in New York City"
         data_type: integer
@@ -14,19 +16,35 @@ sources:
           ownership: "data_team"
           importance: high
           formatting: none
+
       - name: green_tripdata
+        description: "Raw data for green taxi trips in New York City"
+        data_type: integer
+        meta:
+          pii: false
+          ownership: "data_team"
+          importance: medium
+          formatting: none
         columns: 
           - name: vendor_id
             description: |
-             "A code indicating the provider associated with the trip record. This code is used to identify the company or service that facilitated the taxi trip.
-                   1: 'Creative Mobile Technologies, LLC'
-                   2: 'VeriFone Inc.'
-                   3: 'Uknown/Other'
-              "
+              "A code indicating the provider associated with the trip record.
+               1: 'Creative Mobile Technologies, LLC'
+               2: 'VeriFone Inc.'
+               3: 'Unknown/Other'"
+
+      - name: fhv_tripdata_2019
+        description: "Raw data for For-Hire Vehicle (FHV) trips in 2019"
         data_type: integer
         meta:
-            pii: false
-            ownership: "data_team"
-            importance: medium
-            formatting: none
-        description: "Raw data for green taxi trips in New York City"
+          pii: false
+          ownership: "data_team"
+          importance: high
+          formatting: none
+        columns:
+          - name: dispatching_base_num
+            description: "The TLC license number of the dispatching base."
+          - name: PUlocationID
+            description: "TLC Taxi Zone pickup location identifier."
+          - name: DOlocationID
+            description: "TLC Taxi Zone dropoff location identifier."
