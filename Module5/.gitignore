@@ -1,0 +1,92 @@
+############################
+# Python
+############################
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+*.dist-info/
+build/
+dist/
+.eggs/
+pip-wheel-metadata/
+
+############################
+# Virtual environments
+############################
+
+.venv/
+venv/
+env/
+ENV/
+.uv/
+.python-version
+
+############################
+# Jupyter
+############################
+
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+############################
+# IDEs / Editors
+############################
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+
+############################
+# OS files
+############################
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+############################
+# Logs
+############################
+
+*.log
+logs/
+
+############################
+# Local databases (IMPORTANT)
+############################
+
+*.db
+*.duckdb
+*.sqlite
+*.sqlite3
+
+############################
+# Data files (generated)
+############################
+
+data/
+*.csv
+*.parquet
+*.feather
+
+############################
+# dbt
+############################
+
+target/
+dbt_packages/
+logs/
+
+############################
+# Bruin
+############################
+
+.bruin/
